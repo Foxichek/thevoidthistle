@@ -99,7 +99,11 @@ export default function ComingSoon() {
                 href="https://t.me/WIRALISCHANNEL"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white hover-elevate transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 backdrop-blur-xl border border-white/30 rounded-lg text-white hover-elevate transition-all duration-300"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%)',
+                  boxShadow: '0 4px 16px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                }}
                 data-testid="link-telegram-channel"
               >
                 <SiTelegram className="w-5 h-5" />
@@ -109,7 +113,11 @@ export default function ComingSoon() {
                 href="https://t.me/wiralis_bot"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white hover-elevate transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 backdrop-blur-xl border border-white/30 rounded-lg text-white hover-elevate transition-all duration-300"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%)',
+                  boxShadow: '0 4px 16px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                }}
                 data-testid="link-telegram-bot"
               >
                 <SiTelegram className="w-5 h-5" />

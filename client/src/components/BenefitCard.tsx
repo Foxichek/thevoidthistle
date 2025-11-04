@@ -13,8 +13,6 @@ export default function BenefitCard({ icon: Icon, title, description, delay = 0,
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!onClick) return;
-    
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -23,8 +21,8 @@ export default function BenefitCard({ icon: Icon, title, description, delay = 0,
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     
-    const tiltX = ((y - centerY) / centerY) * -8;
-    const tiltY = ((x - centerX) / centerX) * 8;
+    const tiltX = ((y - centerY) / centerY) * (onClick ? -8 : -4);
+    const tiltY = ((x - centerX) / centerX) * (onClick ? 8 : 4);
     
     setTilt({ x: tiltX, y: tiltY });
   };
@@ -35,16 +33,19 @@ export default function BenefitCard({ icon: Icon, title, description, delay = 0,
 
   return (
     <div
-      className={`bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-5 md:p-6 transition-all duration-300 ${
+      className={`bg-white/10 backdrop-blur-xl border border-white/30 rounded-xl p-5 md:p-6 transition-all duration-300 ${
         onClick ? 'cursor-pointer hover-elevate' : 'hover-elevate'
       }`}
       style={{ 
         animationDelay: `${delay}ms`,
-        transform: onClick ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x || tilt.y ? 1.02 : 1})` : undefined,
-        boxShadow: onClick ? `
-          0 10px 40px rgba(139, 92, 246, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1)
-        ` : undefined,
+        transform: onClick ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x || tilt.y ? 1.02 : 1})` : `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        boxShadow: `
+          0 8px 32px rgba(139, 92, 246, 0.15),
+          0 4px 16px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+        `,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%)',
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
