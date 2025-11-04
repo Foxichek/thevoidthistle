@@ -1,11 +1,13 @@
-import { Newspaper, Sparkles } from 'lucide-react';
+import { Newspaper, Sparkles, LogIn } from 'lucide-react';
 import { SiTelegram } from 'react-icons/si';
+import { useLocation } from 'wouter';
 import DiamondBackground from './DiamondBackground';
 import BenefitCard from './BenefitCard';
-import TelegramLoginCard from './TelegramLoginCard';
 import FloatingEmojis from './FloatingEmojis';
 
 export default function ComingSoon() {
+  const [, setLocation] = useLocation();
+  
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900">
       <div 
@@ -73,7 +75,13 @@ export default function ComingSoon() {
                 description="Современный дизайн и удобный формат для ваших новостей"
                 delay={600}
               />
-              <TelegramLoginCard delay={700} />
+              <BenefitCard
+                icon={LogIn}
+                title="Жду Сайт"
+                description="Войдите через код из бота и получите доступ к вашему профилю"
+                delay={700}
+                onClick={() => setLocation('/register')}
+              />
               <BenefitCard
                 icon={Sparkles}
                 title="И многое другое"
