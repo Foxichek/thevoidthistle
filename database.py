@@ -8,7 +8,7 @@ from sqlalchemy.orm import declarative_base
 # Имя пользователя, пароль и имя БД, которые вы задали в create_db.sh
 DB_USER = "asteron"
 DB_PASS = "_1337_Crystal-Madness_404_Asteron#_banana[labats]brc"
-DB_HOST = "194.87.234.234"  # или IP-адрес вашего сервера PostgreSQL
+DB_HOST = "147.45.224.10"  # или IP-адрес вашего сервера PostgreSQL
 DB_PORT = "5432"
 DB_NAME = "crystalmadness"
 
