@@ -1,274 +1,225 @@
-# WIRALIS Coming Soon Page
+# WIRALIS - Web Portal
 
-## Overview
+## Обзор проекта
 
-This is a coming soon/placeholder page for WIRALIS, a cryptocurrency-focused platform currently under development. The application features a single-page design showcasing the brand's modern, energetic identity through vibrant purple and green gradients with diagonal stripe patterns. The page highlights upcoming features including beautiful news posts, WIRALIS-bot login integration, and other platform capabilities.
+WIRALIS - это веб-портал для интеграции с Telegram ботом. Пользователи могут входить на сайт используя коды, генерируемые ботом, и просматривать свои профили.
 
-The application is built as a full-stack TypeScript project with a React frontend and Express backend. It integrates with a Telegram bot through API endpoints for user authentication and registration.
+## Последние изменения (05.11.2025)
 
-## Telegram Bot Integration
+- ✅ Удален Neon database driver, добавлена поддержка стандартного PostgreSQL
+- ✅ Настроены переменные окружения для production VPS
+- ✅ Создана полная документация по deployment на Nginx
+- ✅ Протестирован API bot integration (генерация и верификация кодов)
+- ✅ Добавлены конфигурационные файлы для PM2 и Nginx
 
-The website integrates with a Telegram bot (@wiralis_bot) through the following workflow:
+## Архитектура проекта
 
-1. **User requests access**: User sends `/web` command in Telegram bot
-2. **Code generation**: Bot calls `/api/bot/generate-code` endpoint with user data
-3. **User authentication**: User enters 6-digit code on website via `/register` page
-4. **Verification**: Website calls `/api/verify-code` to authenticate user
-5. **Profile access**: User gains access to their profile and platform features
+### База данных
+- **Тип**: PostgreSQL (на внешнем VPS сервере)
+- **Хост**: 147.45.224.10:5432
+- **База**: crystalmadness
+- **ORM**: Drizzle ORM
+- **Драйвер**: node-postgres (pg)
 
-### API Endpoints
+### Backend
+- **Фреймворк**: Express.js
+- **TypeScript**: tsx для development, esbuild для production
+- **Порт**: 5000 (проксируется через Nginx)
 
-- `POST /api/bot/generate-code` - Bot endpoint to generate authentication codes (requires API key)
-- `POST /api/verify-code` - Website endpoint to verify user codes
-- `GET /api/profile/:userId` - Retrieve user profile data
+### Frontend
+- **Фреймворк**: React + Vite
+- **Routing**: wouter
+- **UI**: shadcn/ui + Tailwind CSS
+- **Состояние**: TanStack Query (React Query)
 
-### Environment Variables
-
-**Important**: Keep `.env` file secure and never commit it to Git (already added to `.gitignore`)
-
-- `TELEGRAM_BOT_API_SECRET` - API key for bot authentication
-- `DATABASE_URL` - PostgreSQL database connection string (Neon serverless)
-
-## User Preferences
-
-Preferred communication style: Simple, everyday language.
-
-## System Architecture
-
-### Frontend Architecture
-
-**Framework**: React 18 with TypeScript, built using Vite as the build tool and development server.
-
-**UI Component System**: Utilizes shadcn/ui component library with Radix UI primitives for accessible, unstyled components. The design system is based on the "new-york" style variant with extensive customization for the WIRALIS brand.
-
-**Styling Approach**: TailwindCSS with extensive custom configuration including:
-- Custom color system using HSL values with CSS variables for theme flexibility
-- Custom border radius values (9px, 6px, 3px)
-- Elevation system using overlay effects (--elevate-1, --elevate-2)
-- Brand-specific color gradients for purple and green themes
-
-**Routing**: Uses Wouter for lightweight client-side routing, though currently only renders the coming soon page.
-
-**State Management**: React Query (@tanstack/react-query) configured for data fetching with conservative defaults (no auto-refetch, infinite stale time), though not actively used in the current implementation.
-
-**Component Structure**: 
-- Custom branded components (ComingSoon, BenefitCard, DiamondBackground, FloatingEmojis)
-- Comprehensive shadcn/ui component library for future expansion
-- Example components for documentation purposes
-
-### Backend Architecture
-
-**Server Framework**: Express.js running on Node.js with TypeScript.
-
-**Development Setup**: Custom Vite middleware integration for hot module replacement during development, with SSR-capable rendering pipeline.
-
-**API Structure**: RESTful API design with `/api` prefix for all endpoints. Currently minimal implementation with placeholder route structure.
-
-**Storage Layer**: Abstracted through an `IStorage` interface with in-memory implementation (`MemStorage`). Designed for easy swapping to database-backed storage (PostgreSQL with Drizzle ORM is configured but not yet implemented).
-
-**Request Logging**: Custom middleware tracking request duration and response payloads for API endpoints.
-
-### Data Storage Solutions
-
-**ORM**: Drizzle ORM configured for PostgreSQL with schema definition and migration support.
-
-**Schema Design**: Simple user authentication schema with:
-- UUID primary keys with auto-generation
-- Username/password fields for basic authentication
-- Unique constraints on usernames
-
-**Database Configuration**: Neon serverless PostgreSQL driver configured via DATABASE_URL environment variable. Migration files outputted to `/migrations` directory.
-
-**Current State**: Database integration is configured but not actively used - application uses in-memory storage for the placeholder page.
-
-### Design System
-
-**Typography**: Multiple font families loaded from Google Fonts:
-- DM Sans for body text
-- Geist Mono for monospace elements
-- Fira Code for code snippets
-- Architects Daughter for decorative elements
-
-**Brand Guidelines**: Documented in `design_guidelines.md` specifying:
-- Purple and green gradient brand colors
-- Diagonal stripe patterns
-- Modern minimalist aesthetic with geometric accents
-- Responsive typography scale (text-6xl to text-sm)
-- Standardized spacing system (4, 6, 8, 12, 16, 20, 24px units)
-
-**Animation**: CSS-based animations for:
-- Fade-in effects with staggered delays
-- Rotating diamond background
-- Floating emoji elements
-- Hover elevation effects
-- Glass-morphism scrollbar with smooth transitions
-
-**Custom Scrollbar**: Glass-style scrollbar featuring:
-- Purple gradient with transparency
-- Smooth hover and active states
-- Backdrop blur effect
-- Border highlights for depth
-- Cross-browser support (WebKit and Firefox)
-
-## External Dependencies
-
-### Core Frameworks
-- **React 18**: Frontend UI framework
-- **Express**: Backend web server
-- **Vite**: Build tool and development server
-- **TypeScript**: Type-safe development across stack
-
-### UI Component Libraries
-- **Radix UI**: Comprehensive set of unstyled, accessible component primitives (@radix-ui/react-*)
-- **shadcn/ui**: Pre-styled component library built on Radix UI
-- **TailwindCSS**: Utility-first CSS framework with PostCSS processing
-- **Lucide React**: Icon library for UI elements
-- **React Icons**: Additional icon sets (specifically Simple Icons for Telegram)
-
-### State Management & Data Fetching
-- **TanStack React Query**: Server state management and data fetching
-- **Wouter**: Lightweight client-side routing
-- **React Hook Form**: Form state management with Zod validation (@hookform/resolvers)
-
-### Database & ORM
-- **Drizzle ORM**: TypeScript ORM with schema definition and migrations
-- **@neondatabase/serverless**: Neon PostgreSQL serverless driver
-- **drizzle-zod**: Integration between Drizzle schemas and Zod validation
-- **Zod**: TypeScript-first schema validation
-
-### Additional UI Libraries
-- **embla-carousel-react**: Carousel/slider component
-- **class-variance-authority**: Utility for creating variant-based component APIs
-- **clsx & tailwind-merge**: Utility for conditional className composition
-- **cmdk**: Command palette component
-- **date-fns**: Date manipulation library
-- **vaul**: Drawer component library
-
-### Development Tools
-- **Replit Plugins**: Development environment enhancements (@replit/vite-plugin-*)
-- **esbuild**: JavaScript bundler for production builds
-- **tsx**: TypeScript execution for development server
-
-### Session Management
-- **connect-pg-simple**: PostgreSQL session store (configured but not actively used)
-
-## Recent Changes (November 4, 2025)
+## API Endpoints
 
 ### Bot Integration
-- Added API endpoints for Telegram bot integration
-- Implemented authentication code generation and verification
-- Added user data storage for bot users
-- Created database schema for registration codes and WIRALIS users
 
-### UI/UX Improvements
-- Added interactive "How it works?" modal explaining bot integration
-- Implemented tooltip on "В РАЗРАБОТКЕ" showing release timeline (December 2025 / Early 2026)
-- Added custom glass-morphism scrollbar matching brand aesthetic
-- Updated footer with copyright © 2025 WIRALIS Team
-- Enhanced BenefitCard component with secondary action support
+#### POST /api/bot/generate-code
+Генерирует код для входа на сайт (вызывается Telegram ботом).
 
-### Technical Updates
-- Configured TELEGRAM_BOT_API_SECRET environment variable
-- Updated replit.md with integration documentation
-- Improved component reusability and type safety
-- Fixed database query error in `/api/verify-code` endpoint
-- Enhanced tooltip animation for smoother UX (500ms ease-out)
-- Updated card descriptions with more detailed features
+**Аутентификация**: Требуется заголовок `X-API-Key` с секретом бота
 
-### Content Updates
-- Changed "Красивые новостные посты" to "Новости и Анонсы"
-- Enhanced "И многое другое" description with social features
-- Updated footer to "© 2025 WIRALIS Team – Все права защищены"
+**Request:**
+```json
+{
+  "telegramId": 123456789,
+  "nickname": "Username",
+  "username": "telegram_username",
+  "quote": "User quote",
+  "botId": "XXXX"
+}
+```
 
-## VPS Deployment Guide
+**Response:**
+```json
+{
+  "code": "ABCD12",
+  "expiresAt": "2025-11-05T13:00:00.000Z",
+  "message": "Код успешно сгенерирован"
+}
+```
 
-This application is designed to be VPS-compatible and can be deployed on any server with Node.js support.
+#### POST /api/verify-code
+Проверяет код и возвращает данные пользователя (вызывается сайтом).
 
-### Prerequisites
+**Request:**
+```json
+{
+  "code": "ABCD12"
+}
+```
 
-- Node.js 18+ installed
-- PostgreSQL database (or Neon serverless)
-- PM2 or similar process manager (recommended)
+**Response:**
+```json
+{
+  "success": true,
+  "user": {
+    "id": "uuid",
+    "telegramId": 123456789,
+    "nickname": "Username",
+    "username": "telegram_username",
+    "quote": "User quote",
+    "botId": "XXXX"
+  }
+}
+```
 
-### Deployment Steps
+#### GET /api/profile/:userId
+Получает профиль пользователя по ID.
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd workspace
-   ```
+## Схема базы данных
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### registration_codes
+- `code` (varchar, PK) - 6-значный код
+- `telegram_id` (bigint) - ID пользователя в Telegram
+- `created_at` (timestamp) - Время создания
+- `expires_at` (timestamp) - Время истечения (10 минут)
+- `is_used` (boolean) - Использован ли код
+- `used_at` (timestamp) - Время использования
 
-3. **Configure environment variables**
-   Create a `.env` file in the root directory:
-   ```env
-   DATABASE_URL=postgresql://username:password@host:port/database
-   TELEGRAM_BOT_API_SECRET=your_secret_key
-   NODE_ENV=production
-   ```
+### wiralis_users
+- `id` (varchar, PK) - UUID
+- `telegram_id` (bigint, unique) - ID пользователя в Telegram
+- `nickname` (text) - Имя пользователя
+- `username` (text) - Username в Telegram
+- `quote` (text) - Цитата пользователя
+- `bot_id` (varchar) - 4-значный ID из бота
+- `registered_at` (timestamp) - Время регистрации
 
-4. **Run database migrations**
-   ```bash
-   npm run db:push
-   ```
+## Переменные окружения
 
-5. **Build the application**
-   ```bash
-   npm run build
-   ```
+### Требуемые секреты (через Replit Secrets)
+- `DATABASE_URL` - URL подключения к PostgreSQL
+- `TELEGRAM_BOT_API_SECRET` - Секрет для API бота
 
-6. **Start the server**
-   ```bash
-   # Development
-   npm run dev
-   
-   # Production (using PM2 recommended)
-   pm2 start npm --name "wiralis" -- run dev
-   pm2 save
-   pm2 startup
-   ```
+### Автоматические
+- `NODE_ENV` - Режим окружения (development/production)
+- `PORT` - Порт сервера (по умолчанию 5000)
 
-### Important Notes
+## Развертывание на VPS
 
-- Port 5000 is used by default (configurable via environment)
-- Application serves both frontend and backend on the same port
-- Ensure PostgreSQL database is accessible from your VPS
-- Keep `.env` file secure and never commit to Git
-- For production, consider using a reverse proxy (nginx/apache) with SSL
+См. файл `DEPLOYMENT.md` для полной инструкции по развертыванию на VPS с Nginx.
 
-### GitHub Repository
+### Краткая инструкция
 
-To push to GitHub:
+1. Скопируйте файлы в `/var/www/wiralis.ru/`
+2. Создайте `.env` файл с переменными окружения
+3. Установите зависимости: `npm install`
+4. Соберите проект: `npm run build`
+5. Примените миграции: `npm run db:push`
+6. Запустите через PM2: `pm2 start ecosystem.config.js`
+7. Настройте Nginx (конфиг в `nginx.conf`)
 
-1. **Initialize git** (if not already done)
-   ```bash
-   git init
-   ```
+## Интеграция с Telegram ботом
 
-2. **Add remote repository**
-   ```bash
-   git remote add origin https://github.com/yourusername/wiralis.git
-   ```
+Бот находится отдельно от веб-приложения и связан только через общую базу данных PostgreSQL.
 
-3. **Commit and push**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push -u origin main
-   ```
+### Процесс аутентификации:
+1. Пользователь вводит `/web` в боте
+2. Бот отправляет POST запрос на `/api/bot/generate-code`
+3. Сервер генерирует 6-значный код и сохраняет в БД
+4. Бот показывает код пользователю
+5. Пользователь вводит код на сайте
+6. Сайт отправляет POST запрос на `/api/verify-code`
+7. Сервер проверяет код и возвращает данные пользователя
+8. Сайт создает сессию для пользователя
 
-4. **Make repository private** (recommended for security)
-   - Go to repository Settings → General → Danger Zone
-   - Click "Change visibility" → Select "Private"
+### Файл бота: web_module.py
+- Отправляет данные пользователя на `/api/bot/generate-code`
+- Использует `X-API-Key` для аутентификации
+- Timeout: 10 секунд
 
-### Security Recommendations
+## Структура проекта
 
-- Always use private repository for production code
-- Keep `.env` file in `.gitignore` (already configured)
-- Use strong, unique API keys and database credentials
-- Consider using environment variable management service for production
-- Regularly update dependencies for security patches
+```
+/var/www/wiralis.ru/
+├── client/              # Frontend React приложение
+│   └── src/
+│       ├── pages/       # Страницы приложения
+│       ├── components/  # React компоненты
+│       └── lib/         # Утилиты и хелперы
+├── server/              # Backend Express приложение
+│   ├── index.ts         # Точка входа сервера
+│   ├── routes.ts        # API маршруты
+│   ├── db.ts            # Подключение к БД
+│   ├── storage.ts       # Интерфейс хранилища
+│   └── vite.ts          # Vite middleware
+├── shared/              # Общие типы и схемы
+│   └── schema.ts        # Drizzle схема БД
+├── dist/                # Скомпилированный код (production)
+├── logs/                # Логи PM2
+├── .env                 # Переменные окружения (не в git)
+├── .env.example         # Пример переменных окружения
+├── ecosystem.config.js  # Конфигурация PM2
+├── nginx.conf           # Конфигурация Nginx
+├── package.json         # Зависимости и скрипты
+├── drizzle.config.ts    # Конфигурация Drizzle ORM
+└── DEPLOYMENT.md        # Инструкция по развертыванию
+
+Бот (отдельно):
+/path/to/bot/
+├── main.py              # Основной файл бота
+├── web_module.py        # Модуль интеграции с сайтом
+├── database.py          # Подключение к БД (SQLAlchemy)
+└── models.py            # Модели БД (SQLAlchemy)
+```
+
+## Команды
+
+### Development
+```bash
+npm run dev          # Запуск в режиме разработки
+npm run check        # Проверка TypeScript
+npm run db:push      # Применить схему к БД
+```
+
+### Production
+```bash
+npm run build        # Сборка проекта
+npm run start        # Запуск production сервера
+```
+
+### PM2
+```bash
+pm2 start ecosystem.config.js   # Запустить приложение
+pm2 restart wiralis-web        # Перезапустить
+pm2 logs wiralis-web           # Просмотр логов
+pm2 stop wiralis-web           # Остановить
+```
+
+## Безопасность
+
+- ✅ Секреты хранятся в переменных окружения
+- ✅ API бота защищен секретным ключом
+- ✅ Пароль БД URL-encoded в DATABASE_URL
+- ✅ Коды истекают через 10 минут
+- ✅ Коды одноразовые (помечаются как использованные)
+
+## Предпочтения пользователя
+
+- Использовать PostgreSQL вместо Neon
+- Развертывание на VPS с Nginx
+- PM2 для управления процессами
+- Бот и сайт связаны только через БД
