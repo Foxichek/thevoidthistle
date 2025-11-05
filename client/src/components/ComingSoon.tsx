@@ -49,7 +49,7 @@ export default function ComingSoon() {
 
       <div className="relative z-10 flex flex-col min-h-screen">
         <header className="py-8 px-8 animate-fade-in" style={{ animationDelay: '100ms' }}>
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className={`max-w-7xl mx-auto flex items-center ${loggedInUser ? 'justify-between' : 'justify-center'}`}>
             <h1 
               className="text-3xl md:text-4xl font-black tracking-wider cursor-pointer"
               style={{
@@ -90,7 +90,7 @@ export default function ComingSoon() {
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight px-4"
                 data-testid="text-main-heading"
               >
-                🛠️ В РАЗРАБОТКЕ
+                В РАЗРАБОТКЕ
               </h2>
               <p 
                 className="text-lg sm:text-xl md:text-2xl text-white/90 px-4"
